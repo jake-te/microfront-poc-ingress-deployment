@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: webapps-nginx-ingress-controller
+  name: webapps-nginx-ingress-controller
+  namespace: default
+  annotations:
+    gitrepo: webapps-app-nginx-ingress
+data:
+  worker-processes: "{{ingress.nginx.worker_processes}}"
+  proxy-body-size: 2m
+  client-body-timeout: '300'
+  server-tokens: 'false'
+  keep-alive: '5'
+  keep-alive-requests: '100'
+  client-body-buffer-size: 128k
+  proxy-connect-timeout: '90'
+  proxy-send-timeout: '90'
+  proxy-read-timeout: '90'
+  proxy-buffer-size: 8k
+  ssl-dh-param: webapps/webapps-tls-dhparam
+  ssl-protocols: TLSv1.1 TLSv1.2
+  log-format-upstream: '{ "timestamp": "$msec", "clientip": "$remote_addr", "host":
+    "$host", "user": "$remote_user", "response": "$status", "verb": "$request_method",
+    "request": "$request_uri", "bytes": $body_bytes_sent, "request_time": $request_time,
+    "referrer": "$http_referer", "x-ssl-protocol": "$http_x_ssl_protocol", "x-ssl-cipher":
+    "$http_x_ssl_cipher", "x-ssl-bits": "$http_x_ssl_bits", "proxy_add_x_forwarded_for":
+    "$proxy_add_x_forwarded_for", "agent": "$http_user_agent", "pid": "$pid", "upstream_time":
+    "$upstream_response_time", "request_id": "$request_id" }'
+  ssl-ciphers: ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-CHACHA20-POLY1305
+  use-forwarded-headers: 'true'
+  custom-http-errors: '404,500,502,503,504'
